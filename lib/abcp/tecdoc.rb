@@ -19,15 +19,23 @@ module Abcp
     end
 
     def manufacturers
-      response = self.class.get('/manufacturers?#{user_keys}')
+      response = self.class.get("/manufacturers?#{user_keys}")
 
       JSON.parse(response.body)
     end
 
     def models(manufacturerId)
-      raise ArgumentError.new('Error! Pass manufacturerId ') if manufacturerId.nil?
+      raise ArgumentError.new('Error! Pass valid manufacturerId') if manufacturerId.nil?
 
-      response = self.class.get('/models?manufacturerId=#{manufacturerId}&#{user_keys}')
+      response = self.class.get("/models?manufacturerId=#{manufacturerId}&#{user_keys}")
+
+      JSON.parse(response.body)
+    end
+
+    def modifications(manufacturerId, modelId)
+      raise ArgumentError.new('Error! Pass valid modifications params') if manufacturerId.nil? || modelId.nil?
+
+      response = self.class.get("/modifications?manufacturerId=#{manufacturerId}&modelId=#{modelId}&#{user_keys}")
 
       JSON.parse(response.body)
     end
@@ -35,7 +43,7 @@ module Abcp
     private
 
     def user_keys
-      'userlogin=#{@user_login}&userpsw=#{@user_psw}&userkey=#{@user_key}'
+      "userlogin=#{@user_login}&userpsw=#{@user_psw}&userkey=#{@user_key}"
     end
   end
 end
