@@ -1,5 +1,6 @@
-require "abcp/version"
+require 'httparty'
+require 'abcp/tecdoc'
+require 'abcp/version'
 
 module Abcp
-  # Your code goes here...
 end
