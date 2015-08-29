@@ -19,7 +19,8 @@ module Abcp
     end
 
     def manufacturers
-      response = self.class.get("/manufacturers?#{user_keys}")
+      request = "/manufacturers?#{user_keys}"
+      response = self.class.get(request)
 
       JSON.parse(response.body)
     end
@@ -27,7 +28,8 @@ module Abcp
     def models(manufacturerId)
       raise ArgumentError.new('Error! Pass valid manufacturerId') if manufacturerId.nil?
 
-      response = self.class.get("/models?manufacturerId=#{manufacturerId}&#{user_keys}")
+      request = "/models?manufacturerId=#{manufacturerId}&#{user_keys}"
+      response = self.class.get(request)
 
       JSON.parse(response.body)
     end
@@ -35,7 +37,8 @@ module Abcp
     def modifications(manufacturerId, modelId)
       raise ArgumentError.new('Error! Pass valid modifications params') if manufacturerId.nil? || modelId.nil?
 
-      response = self.class.get("/modifications?manufacturerId=#{manufacturerId}&modelId=#{modelId}&#{user_keys}")
+      request = "/modifications?manufacturerId=#{manufacturerId}&modelId=#{modelId}&#{user_keys}"
+      response = self.class.get(request)
 
       JSON.parse(response.body)
     end
@@ -43,7 +46,35 @@ module Abcp
     def tree(modificationId)
       raise ArgumentError.new('Error! Pass valid modificationId') if modificationId.nil?
 
-      response = self.class.get("/tree?modificationId=#{modificationId}&#{user_keys}")
+      request = "/tree?modificationId=#{modificationId}&#{user_keys}"
+      response = self.class.get(request)
+
+      JSON.parse(response.body)
+    end
+
+    def articles(modificationId, categoryId)
+      raise ArgumentError.new('Error! Pass valid articles params') if modificationId.nil? || categoryId.nil?
+
+      request = "/articles?modificationId=#{modificationId}&categoryId=#{categoryId}&#{user_keys}"
+      response = self.class.get(request)
+
+      JSON.parse(response.body)
+    end
+
+    def analogs(number, type)
+      raise ArgumentError.new('Error! Pass analogs of detail') if number.nil?
+
+      request = "/analogs?number=#{number}&type=#{type}&#{user_keys}"
+      response = self.class.get(request)
+
+      JSON.parse(response.body)
+    end
+
+    def adaptability(articleId, start = 0)
+      raise ArgumentError.new('Error! Pass articleId') if articleId.nil?
+
+      request = "/adaptability?articleId=#{articleId}&start=#{start}&#{user_keys}"
+      response = self.class.get(request)
 
       JSON.parse(response.body)
     end
