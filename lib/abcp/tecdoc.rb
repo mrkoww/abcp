@@ -40,6 +40,14 @@ module Abcp
       JSON.parse(response.body)
     end
 
+    def tree(modificationId)
+      raise ArgumentError.new('Error! Pass valid modificationId') if modificationId.nil?
+
+      response = self.class.get("/tree?modificationId=#{modificationId}&#{user_keys}")
+
+      JSON.parse(response.body)
+    end
+
     private
 
     def user_keys
