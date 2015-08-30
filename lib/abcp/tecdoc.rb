@@ -1,6 +1,10 @@
+require 'abcp/connection'
+require 'abcp/tecdoc/manufacturer'
+
 module Abcp
   class TecDoc
     include HTTParty
+    include Abcp::Connection
 
     attr_accessor :user_login, :user_psw, :user_key
 
@@ -20,9 +24,8 @@ module Abcp
 
     def manufacturers
       request = "/manufacturers?#{user_keys}"
-      response = self.class.get(request)
-
-      JSON.parse(response.body)
+      data = get(request)
+      Manufacturer.parse_manufacturers(data)
     end
 
     def models(manufacturerId)
@@ -39,8 +42,6 @@ module Abcp
 
       request = "/modifications?manufacturerId=#{manufacturerId}&modelId=#{modelId}&#{user_keys}"
       response = self.class.get(request)
-
-      JSON.parse(response.body)
     end
 
     def tree(modificationId)
